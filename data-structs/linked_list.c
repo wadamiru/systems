@@ -8,8 +8,10 @@ struct node {
 
 struct llist {
   struct node* head;
+  struct node* tail;
 };
 
+// append a new node at the end of list: O(1)
 void append(struct llist* ll, int new) {
   struct node* newnd = (struct node*)malloc(sizeof(struct node));
   newnd->data = new;
@@ -17,16 +19,15 @@ void append(struct llist* ll, int new) {
 
   if (ll->head==NULL) {
     ll->head = newnd;
+    ll->tail = newnd;
     return;
   }
 
-  struct node* curr = ll->head;
-  while (curr->next) {
-    curr = curr->next;
-  }
-  curr->next = newnd;
+  ll->tail->next = newnd;
+  ll->tail = newnd;
 }
 
+// delete an existing node given the data it holds: O(n)
 void delete(struct llist* ll, int data) {
   struct node* curr = ll->head;
   struct node* prev = NULL;
@@ -76,6 +77,7 @@ int main() {
 
   struct llist list;
   list.head = NULL;
+  list.tail = NULL;
 
   append(&list, 10);
   append(&list, 20);
