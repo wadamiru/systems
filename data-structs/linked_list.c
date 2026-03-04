@@ -14,6 +14,10 @@ struct llist {
 // append a new node at the end of list: O(1)
 void append(struct llist* ll, int new) {
   struct node* newnd = (struct node*)malloc(sizeof(struct node));
+  if (newnd==NULL) {
+    printf("malloc failed\n");
+    return;
+  }
   newnd->data = new;
   newnd->next = NULL;
 
