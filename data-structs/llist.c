@@ -54,9 +54,10 @@ void delete(struct llist* ll, int data) {
 void print(struct llist* ll) {
   struct node* curr = ll->head;
   while (curr) {
-    printf("data: %d\n", curr->data);
+    printf("%d -> ", curr->data);
     curr = curr->next;
   }
+  printf("NULL\n");
 }
 
 int main() {
@@ -64,6 +65,8 @@ int main() {
   struct llist ll;
   ll.head = NULL;
   append(&ll, 4);
+  append(&ll, 6);
+  append(&ll, 9);
   print(&ll);
   delete(&ll, 4);
   print(&ll);
