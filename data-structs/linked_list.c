@@ -51,7 +51,7 @@ void delete(struct llist* ll, int data) {
   free(curr);
 }
 
-void print(struct llist* ll) {
+void print_list(struct llist* ll) {
   struct node* curr = ll->head;
   while (curr) {
     printf("%d -> ", curr->data);
@@ -60,15 +60,38 @@ void print(struct llist* ll) {
   printf("NULL\n");
 }
 
+void free_list(struct llist* ll) {
+  struct node* curr = ll->head;
+  struct node* next;
+  while (curr) {
+    next = curr->next;
+    free(curr);
+    curr = next;
+  }
+  ll->head = NULL;
+}
+
 int main() {
   printf("linked list impl.\n");
-  struct llist ll;
-  ll.head = NULL;
-  append(&ll, 4);
-  append(&ll, 6);
-  append(&ll, 9);
-  print(&ll);
-  delete(&ll, 4);
-  print(&ll);
+
+  struct llist list;
+  list.head = NULL;
+
+  append(&list, 10);
+  append(&list, 20);
+  append(&list, 30);
+  append(&list, 40);
+
+  printf("Original list:\n");
+  print_list(&list);
+
+  delete(&list, 10);  // delete head
+  delete(&list, 30);  // delete middle
+  delete(&list, 50);  // delete non-existent: 'node to found'
+
+  printf("After deletions:\n");
+  print_list(&list);
+
+  free_list(&list);
   return 0;
 }
