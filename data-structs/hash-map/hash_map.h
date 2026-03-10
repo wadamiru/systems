@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <string.h>
 
 typedef struct item item_t;
 typedef struct item {
@@ -117,12 +118,13 @@ char* search (map_t* map, char* key) {
     }
     curr = curr->next;
   }
-  perror("[ERROR] no key exists (%s)\n", key);
+  printf("[ERROR] no key exists (%s)\n", key);
   return NULL;
 }
 
 void print_map (map_t* map) {
-  for (int i=0; i<map->size; i++) {
+  printf("-------------Hash-map-------------\n");
+  for (int i=0; i<map->cap; i++) {
     printf("[%d]", i);
     item_t* curr = map->bucket[i];
     while (curr) {
@@ -131,4 +133,5 @@ void print_map (map_t* map) {
     }
     printf("NULL\n");
   }
+  printf("-------------Hash-map-end-------------\n");
 }
