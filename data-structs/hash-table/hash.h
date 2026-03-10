@@ -38,4 +38,31 @@ int hash (map_t* map, const char* key) {
   return hash % map->cap;
 }
 
-
+int resize_&_rehash (map_t* map) { // return 1 if success, 0 if not
+  int cap0 = map->cap;
+  item_t** bucket0 = map->bucket;
+  // double capacity
+  map->cap *= 2;
+  map->bucket = (item_t**)calloc(map->cap, sizeof(item_t*));
+  if (map->bucket==NULL) {
+    perror("[ERROR] resizing failed --calloc\n");
+    map->bucket = bucket0;
+    return 0;
+  }
+  map->size = 0;
+  for (int i=0; i<cap0; i++) {
+    item_t* item = bucket0[i];
+    while (item) {
+      item_t* next = item->next;
+      int idx = hash(map, item->key);
+      // set new item's next to curr head
+      item->next = map->bucket[idx];
+      // set head to new item
+      map->bucket[idx] = item;
+      item = next;
+      map->size++;
+    }
+  }
+  free(bucket0); // free odl bucket
+  return 1;
+}
